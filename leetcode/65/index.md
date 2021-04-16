@@ -2,7 +2,7 @@
 
 ​		核心理念就是把每个小函数抽象成一个计算节点（纯函数）（有点像Tensorflow中的计算图模型），规定好每个计算节点的输入为一个字符，计算内容是根据输入判断下一步走向哪一个节点，输出是下一个节点的编号/指针。如果最后落在了可以当作结束位置的点就表明成功，反则失败。
 
-```c++
+```
 #include<iostream>
 using namespace std;
 vector<vector<int>> jumpTable = 
@@ -41,7 +41,7 @@ public:
 
 ​		函数式的做法大同小异，在这里函数被抽象成了计算图，所有的计算不是在数据上的计算而是在函数上的计算。monad中的bind被我简化成了mergeFunc。函数式yyds！（头一次体会到haskell的简洁
 
-```c++
+```
 string s;
 // 核心代码就这下面三个函数，说是核心其实也没啥难度，后面就都是搭积木而已
 function<vector<int>(int)> multiFunc(function<vector<int>(int)> f){
