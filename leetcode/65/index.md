@@ -46,7 +46,7 @@ public:
 
 ​		函数式的做法大同小异，在这里函数被抽象成了计算图，所有的计算不是在数据上的计算而是在函数上的计算。monad中的bind被我简化成了mergeFunc。函数式yyds！（头一次体会到haskell的简洁
 
-```
+```c++
 string s;
 // 核心代码就这下面三个函数，说是核心其实也没啥难度，后面就都是搭积木而已
 function<vector<int>(int)> multiFunc(function<vector<int>(int)> f){
