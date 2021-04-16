@@ -16,7 +16,12 @@ vector<vector<int>> jumpTable = {
     {-1, -1, -1,  8},
     {-1, -1, -1,  8}};
 unordered_set<int> dict= {2,4,5,8};
-unordered_map<char,int> m = {{'+',0},{'-',0},{'.',1},{'e',2},{'E',2}};
+unordered_map<char,int> m = {
+    {'+',0},
+    {'-',0},
+    {'.',1},
+    {'e',2},
+    {'E',2}};
 class Solution {
 public:
     int typeMap(char c){
