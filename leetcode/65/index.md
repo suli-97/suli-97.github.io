@@ -1,6 +1,9 @@
-这道题是我第一遍刷题时就跳过的一道题，，，因为当时的我太菜了，也没有学过编译原理。看到有限自动机这个fancy的名字，我就被吓到了，于是就跳过了这道题。之后在ucsd上haskell这节函数式编程课之后，刚好要写一个小编译器，里面所学到的State Monad完全可以cover这道题。时隔一年，重新审视这道题，暗喜于这小半年上课没有白费。
+- 这道题是我第一遍刷题时就跳过的一道题，，，因为当时的我太菜了，也没有学过编译原理。看到有限自动机这个fancy的名字，我就被吓到了，于是就跳过了这道题。之后在ucsd上haskell这节函数式编程课之后，刚好要写一个小编译器，里面所学到的State Monad完全可以cover这道题。时隔一年，重新审视这道题，暗喜于这小半年上课没有白费。
 
-​		核心理念就是把每个小函数抽象成一个计算节点（纯函数）（有点像Tensorflow中的计算图模型），规定好每个计算节点的输入为一个字符，计算内容是根据输入判断下一步走向哪一个节点，输出是下一个节点的编号/指针。如果最后落在了可以当作结束位置的点就表明成功，反则失败。
+- 核心理念就是把每个小函数抽象成一个计算节点（纯函数）（有点像Tensorflow中的计算图模型），规定好每个计算节点的输入为一个字符，计算内容是根据输入判断下一步走向哪一个节点，输出是下一个节点的编号/指针。如果最后落在了可以当作结束位置的点就表明成功，反则失败。这里采用了表驱动的方法，因为速度会快很多。
+- 跳表的每一行代表一个节点，因为一共有四种字符 +-算一种 数字算一种 小数点算一种 e算一种，所以每个节点内部根据四种输入字符分别列出下一步将跳往哪个节点。
+- 结点的数量要根据画出的状态图来决定。画出基础的状态图后，如果两个节点的输出是完全一致的（对应跳表某两行完全一致），那么这两个节点就可以合并为一个节点。最终这道题，加上输入节点之后，可以简化为9个节点。
+- ![img](C:\Users\40474\Desktop\suli-97.github.io\leetcode\65\img.jpg)
 
 ```c++
 #include<iostream>
@@ -15,7 +18,7 @@ vector<vector<int>> jumpTable = {
     {7,  -1, -1,  8},
     {-1, -1, -1,  8},
     {-1, -1, -1,  8}};
-unordered_set<int> dict= {2,4,5,8};
+unordered_set<int> endPoints = {2,4,5,8};
 unordered_map<char,int> m = {
     {'+',0},
     {'-',0},
@@ -38,13 +41,13 @@ public:
             current = jumpTable[current][type];
             if(current == -1) return false;
         }
-        if (dict.find(current) != dict.end()) return true;
+        if (endPoints.find(current) != endPoints.end()) return true;
         return false;
     }  
 };
 ```
 
-​		函数式的做法大同小异，在这里函数被抽象成了计算图，所有的计算不是在数据上的计算而是在函数上的计算。monad中的bind被我简化成了mergeFunc。函数式yyds！（头一次体会到haskell的简洁
+- 函数式的做法大同小异，在这里函数被抽象成了计算图，所有的计算不是在数据上的计算而是在函数上的计算。monad中的bind被我简化成了mergeFunc。函数式yyds！（头一次体会到haskell的简洁
 
 ```c++
 string s;
@@ -95,7 +98,7 @@ auto isSign = singleCheck([](char c)->bool{return c != '+' && c != '-';});
 auto isDot = singleCheck([](char c)->bool{return c!='.';});
 auto isE = singleCheck([](char c)->bool{return c!='e' && c!= 'E';});
 function<vector<int>(int)> isBlank = [](int index)->vector<int>{return {index}; };
-
+// 开始搭积木
 auto isUnsignedInt = multiFunc(isDigit);
 
 auto orSign = orFunc({isSign, isBlank});
