@@ -2,6 +2,8 @@
 
 # <center>接雨水与包围圈</center>
 
+[接雨水](https://leetcode-cn.com/problems/trapping-rain-water-ii/)
+
 - 定义三个概念：
 
   * 点高 = 某点本身的高度
