@@ -1,0 +1,16 @@
+{
+  "files.associations": {
+	"*.cjson": "jsonc",
+	"*.wxss": "css",
+	"*.wxs": "javascript",
+	"*.wpy": "html",
+	"*.wxml": "html",
+	"unordered_set": "cpp",
+	"vector": "cpp",
+	"ostream": "cpp",
+	"iostream": "cpp",
+	"string": "cpp",
+	"complex": "cpp"
+},
+  "editor.insertSpaces": false
+}
