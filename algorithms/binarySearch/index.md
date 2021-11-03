@@ -1,3 +1,7 @@
+[返回上页](..)
+
+# 二分搜索之谜思
+
 所有二分搜索的原则：不错过，问题规模在缩小，不浪费
 
 当寻找插入位置时，我们记住不能让high=mid-1.因为我们寻找的是第一个大于等于target的数的位置，如果-1就会错过。但是可以low=mid+1，因为这样不会错过，而且不会浪费。 [题目](https://leetcode.com/problems/search-insert-position/submissions/)
