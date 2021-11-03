@@ -36,9 +36,9 @@ int quickSelect(vector<int> nums, int k) {
 int main(){
 	for(int j=0;;j++){
 		vector<int> nums;
-		for(int i=0;i<100;i++)
+		for(int i=0;i<10;i++)
 			nums.push_back(rand());
-		bool equal = topK(nums,10)==quickSelect(nums,10);
+		bool equal = topK(nums,3)==quickSelect(nums,3);
 		cout<<j<<':'<<equal<<endl;
 		if(!equal)
 			break;
