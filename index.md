@@ -6,3 +6,4 @@
 
 [算法](./algorithms/index.md)
 
+[C++](./c++/index.md)
