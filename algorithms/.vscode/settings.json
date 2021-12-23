@@ -10,7 +10,8 @@
 	"ostream": "cpp",
 	"iostream": "cpp",
 	"string": "cpp",
-	"complex": "cpp"
+	"complex": "cpp",
+	"algorithm": "cpp"
 },
   "editor.insertSpaces": false
 }

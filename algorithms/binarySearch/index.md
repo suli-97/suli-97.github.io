@@ -1,41 +1,56 @@
 [返回上页](..)
 
-# 二分搜索之谜思
+# 二分搜索之大总结
 
-所有二分搜索的原则：不错过，问题规模在缩小，不浪费
+### 二分查找第一个符合条件的元素
 
-当寻找插入位置时，我们记住不能让high=mid-1.因为我们寻找的是第一个大于等于target的数的位置，如果-1就会错过。但是可以low=mid+1，因为这样不会错过，而且不会浪费。 [题目](https://leetcode.com/problems/search-insert-position/submissions/)
+ 找到第一个出现满足条件的⬇️, 全部可以复用这套逻辑，所以背死这个搜索模版
 
-```c++
-int searchInsert(vector<int>& nums, int target) {
-  if(target>nums.back()) return nums.size();
-  int low = 0, high = nums.size()-1;
-  while(low<high){
-    int mid = (low+high)/2;
-    int x = nums[mid];
-    if(x==target) return mid;
-    if(x<target)
-    low=mid+1;
-    else
-    high=mid;
-  }
-  return low;
-}
+```python
+# 找到符合条件的第一个元素的索引，若不存在返回 -1
+def first(nums, valid):
+	if not valid(nums[-1]):
+		return -1
+	st = 0
+	ed = len(nums)-1
+	while st<ed:
+		mid = st + (ed-st)//2
+		if valid(nums[mid]):
+			ed = mid
+		else:
+			st = mid + 1
+	return st
 ```
 
-当已知一定存在target时，我们要让high=mid-1。[题目](https://leetcode.com/problems/guess-number-higher-or-lower/)
+### 常见的转化
 
-```c++
-int guessNumber(int n) {
-  int low = 1, high=n;
-  while(low<high){
-    int mid = low+(high-low)/2;
-    int r = guess(mid);
-    if(r==0) return mid;
-    if(r==1) low = mid+1;
-    else high = mid-1;
-  }
-  return low;
-}
-```
+- 找到符合条件的最后一个, 若不存在返回-1
 
+  ```python
+  def last(nums, valid):
+  	index = first(nums,lambda x : not valid(x))
+  	return  index - 1 if index != -1 else len(nums) - 1
+  ```
+
+- 查找target插入位置
+
+  ```python
+  def insertPosition(nums, target):
+  	index = first(nums, lambda x: x>=target)
+  	return index if index!=-1 else len(nums)
+  ```
+
+- 查找有序数组里是否存在target
+
+  ```python
+  def exist(nums, target):
+  	valid = lambda x: x>=target
+  	index = first(nums,valid)
+  	return index != -1 and nums[index]==target
+  ```
+
+### 练习题
+
+- [题目](https://leetcode.com/problems/search-insert-position/submissions/)
+
+- [题目](https://leetcode.com/problems/guess-number-higher-or-lower/)
