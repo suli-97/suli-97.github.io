@@ -1,10 +1,14 @@
 [返回上页](..)
 
-# 二分搜索之大总结
+# 二分搜索大总结
 
 ### 二分查找第一个符合条件的元素
 
  找到第一个出现满足条件的⬇️, 全部可以复用这套逻辑，所以背死这个搜索模版
+
+valid定义为 能把数组二分成左右两部分，左边全部返回false，右边全部返回true的一个函数
+
+first可以找到第一个valid的索引.
 
 ```python
 # 找到符合条件的第一个元素的索引，若不存在返回 -1
@@ -51,6 +55,20 @@ def first(nums, valid):
 
 ### 练习题
 
-- [题目](https://leetcode.com/problems/search-insert-position/submissions/)
+- [搜索插入位置](https://leetcode.com/problems/search-insert-position/submissions/)
 
-- [题目](https://leetcode.com/problems/guess-number-higher-or-lower/)
+- [猜数字](https://leetcode.com/problems/guess-number-higher-or-lower/)
+
+- [旋转数组里找target](https://leetcode.com/problems/search-in-rotated-sorted-array/)
+
+  hint: 这里对于valid的定义要这样定义
+
+  ```javascript
+  if (target < nums[0])
+  	valid = x=>x<nums[0] && x>=target
+  else
+  	valid = x=> x<nums[0] || x>=target
+  ```
+
+  
+
