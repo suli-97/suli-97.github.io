@@ -70,5 +70,5 @@ def first(nums, valid):
   	valid = x=> x<nums[0] || x>=target
   ```
 
-  
+- [第一个与最后一个位置](https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/)
 
