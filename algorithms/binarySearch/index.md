@@ -72,3 +72,4 @@ def first(nums, valid):
 
 - [第一个与最后一个位置](https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/)
 
+- [在未知大小的数组里二分](https://leetcode.com/problems/search-in-a-sorted-array-of-unknown-size/)
