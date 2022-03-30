@@ -62,7 +62,7 @@ def do(*parsers):
 	parser = lambda s, i=0: sum([ parser(rest, i+1) for rest in parsers[i](s)], []) if i<len(parsers) else [s]
 	return parser
 #定义辅助函数
-orAnd = lambda parsers: lambda s: sum([ parser(s) for parser in parsers], [])
+orAnd = lambda *parsers: lambda s: sum([ parser(s) for parser in parsers], [])
 def orElse(*parsers):
 	parser = lambda s, i=0: parsers[i](s) or parser(s,i+1) if i<len(parsers) else []
 	return parser
