@@ -52,89 +52,35 @@ public:
 };
 ```
 
-- 函数式的做法大同小异，在这里函数被抽象成了计算图，所有的计算不是在数据上的计算而是在函数上的计算。monad中的bind被我简化成了mergeFunc。函数式yyds！（头一次体会到haskell的简洁
+- 函数式的做法大同小异，在这里函数被抽象成了计算图，所有的计算不是在数据上的计算而是在函数上的计算。monad中的bind被我简化成了do。函数式yyds！（头一次体会到haskell的简洁
 
-```c++
-string s;
-// 核心代码就这下面三个函数，说是核心其实也没啥难度，后面就都是搭积木而已
-function<vector<int>(int)> multiFunc(function<vector<int>(int)> f){
-    return [f](int index_){
-        int index = index_;
-        while(true){
-            vector<int> tmp = f(index);
-            if( tmp.size() == 0 ) return index == index_ ? tmp : vector<int>{index};
-            index = tmp[0];
-        }
-    };
-}
-function<vector<int>(int)> mergeFunc( vector<function<vector<int>(int)>> list){
-    auto f = new function<vector<int>(int,int)>();
-    *f = [list, f](int index, int i=0) -> vector<int>{
-        if(i == list.size()) return {index};
-        vector<int> v = list[i](index);
-        vector<int> res;
-        for(int next: v){
-            vector<int> temp = (*f)(next,i+1);
-            if(temp.size()) res.insert(res.end(),temp.begin(),temp.end());
-        }
-        return res;
-    };
-    return [f](int index){return (*f)(index,0);};
-}
-function<vector<int>(int)> orFunc( vector<function<vector<int>(int)>> list){
-    return [list](int index)->vector<int>{
-        vector<int> res;
-        for(auto f:list){
-            vector<int> temp = f(index);
-            res.insert(res.end(),temp.begin(),temp.end());
-        }
-        return res;
-    };
-}
+```python
+# 定义好return 和bind
+ok = lambda s : [s]
+def do(*parsers):
+	parser = lambda s, i=0: sum([ parser(rest, i+1) for rest in parsers[i](s)], []) if i<len(parsers) else [s]
+	return parser
+#定义辅助函数
+orAnd = lambda parsers: lambda s: sum([ parser(s) for parser in parsers], [])
+def orElse(*parsers):
+	parser = lambda s, i=0: parsers[i](s) or parser(s,i+1) if i<len(parsers) else []
+	return parser
+def manyP(parser):
+	f = lambda s: sum( [orElse(f, ok)(ss) for ss in parser(s)], [])
+	return f
+# 搭积木
+satP = lambda judger: lambda s: [] if s=="" or not judger(s[0]) else [s[1:]]
+charP = lambda c_: satP(lambda c:c==c_)
+digitCharP = satP(lambda c: ord('0')<=ord(c)<=ord('9'))
+signP = orElse(charP('+'), charP('-'), ok)
+intStringP = manyP(digitCharP)
 
-function<vector<int>(int)> singleCheck(function<bool(char)> f){
-    return [f](int index) -> vector<int>{
-        return (index >= s.size() || index < 0 || f(s[index]) ) ? vector<int>{} : vector<int>{index+1};
-    };
-}
-auto isDigit = singleCheck([](char c)->bool{return !isdigit(c);});
-auto isAlpha = singleCheck([](char c)->bool{return !isalpha(c);});
-auto isSign = singleCheck([](char c)->bool{return c != '+' && c != '-';});
-auto isDot = singleCheck([](char c)->bool{return c!='.';});
-auto isE = singleCheck([](char c)->bool{return c!='e' && c!= 'E';});
-function<vector<int>(int)> isBlank = [](int index)->vector<int>{return {index}; };
-// 开始搭积木
-auto isUnsignedInt = multiFunc(isDigit);
-
-auto orSign = orFunc({isSign, isBlank});
-auto orUnsignedInt = orFunc({isUnsignedInt, isBlank});
-
-auto isInt = mergeFunc({orSign,isUnsignedInt});
-
-auto isUnsignedFloat1 = mergeFunc({isUnsignedInt, isDot, orUnsignedInt});
-auto isUnsignedFloat2 = mergeFunc({isDot, isUnsignedInt});
-
-auto isUnsignedFloat = orFunc({isUnsignedFloat1,isUnsignedFloat2});
-
-auto isFloat = mergeFunc({orSign,isUnsignedFloat});
-
-auto isFloatOrInt = orFunc({isFloat, isInt});
-
-auto isEInt = mergeFunc({isE, isInt});
-auto orEInt = orFunc({isBlank, isEInt});
-
-auto isN = mergeFunc({ isFloatOrInt, orEInt});
-
-
-class Solution {
-public:
-    bool isNumber(string s_) {
-        s = s_;
-        vector<int> end = isN(0);
-        for(int i : end)
-            if(i == s.size()) return true;
-        return false;
-    }  
-};
+signedIntP = do(signP, intStringP)
+option1P = do(intStringP, charP('.'))
+option2P = do(intStringP, charP('.'),intStringP)
+option3P = do(charP('.'), intStringP)
+floatP = do(signP, orAnd(option1P, option2P, option3P))
+eIntergerP = do(orElse(charP('e'),charP('E')), signedIntP)
+validNumberP = do(orAnd(floatP, signedIntP), orAnd(eIntergerP, ok))
 ```
 
