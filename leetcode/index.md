@@ -12,6 +12,7 @@
     - [多路线性回归问题](./multiway/index.md)
     - [最短无线通讯问题](./minPath/index.md)
     - [放盒子高度一定求最小宽度packBox问题](./packBox/index.md)
+    - [#813. Largest Sum of Averages](./813/index.md)
 - 数学
   + [#407 hard 接雨水Ⅱ](./407/index.md)
   + [#365 水壶问题](./365/index.md)
