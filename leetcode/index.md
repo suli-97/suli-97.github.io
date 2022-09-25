@@ -14,4 +14,5 @@
     - [放盒子高度一定求最小宽度packBox问题](./packBox/index.md)
 - 数学
   + [#407 hard 接雨水Ⅱ](./407/index.md)
-
+  + [#365 水壶问题](./365/index.md)
+  + [#810 异或问题](./810/index.md)
