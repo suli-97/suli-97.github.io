@@ -16,4 +16,4 @@
 
 - [拓扑排序](./拓扑排序/index.md)
 
-  
+- [前缀差](./prefixDiff/index.md)
