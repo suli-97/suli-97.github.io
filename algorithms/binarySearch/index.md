@@ -73,3 +73,6 @@ def first(st, ed, valid):
 - [在未知大小的数组里二分](https://leetcode.com/problems/search-in-a-sorted-array-of-unknown-size/)
 
 - [找山峰](https://leetcode.com/problems/peak-index-in-a-mountain-array/)
+
+- [875. Koko Eating Bananas](https://leetcode.com/problems/koko-eating-bananas/)
+

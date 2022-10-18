@@ -11,3 +11,4 @@
 - [拓扑排序](./拓扑排序/index.md)
 - [前缀差](./prefixDiff/index.md)
 - [概率问题](./possibility/index.md)
+- [区间问题](../intervals/index.md)
